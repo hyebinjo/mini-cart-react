@@ -2,7 +2,7 @@ const ProductList = ({ productData }) => {
     return (
         <>
             {productData.map((item) => (
-                <article id="product-card">
+                <article id="product-card" key={item.id}>
                     <div className="rounded-lg overflow-hidden border-2 relative">
                         <img
                             src={item.imgSrc}
