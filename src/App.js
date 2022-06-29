@@ -6,6 +6,8 @@ import CartList from './components/CartList';
 
 function App() {
     const [productData, setProductData] = useState([]);
+    const [cartOpen, setCartOpen] = useState(false);
+
     useEffect(() => {
         async function fetchData() {
             const data = await getProductData();
@@ -13,6 +15,11 @@ function App() {
         }
         fetchData();
     }, []);
+
+    const toggleCart = () => {
+        setCartOpen((prev) => !prev);
+    };
+
     return (
         <div className="relative min-h-screen">
             <div className="max-w-7xl mx-auto px-6 py-12">
@@ -21,6 +28,7 @@ function App() {
                     <button
                         id="open-cart-btn"
                         className="fill-gray-400 hover:fill-gray-500"
+                        onClick={toggleCart}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -37,21 +45,28 @@ function App() {
                         id="product-card-grid"
                         className="grid gap-4 auto-cols-fr grid-cols-2 md:grid-cols-4"
                     >
-                        <ProductList productData={productData} />
+                        <ProductList
+                            productData={productData}
+                            toggleCart={toggleCart}
+                        />
                     </div>
                 </section>
             </div>
             {/* backdrop의 가시성은 hidden 속성으로 제어합니다.  */}
-            <div
-                id="backdrop"
-                className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                hidden
-            ></div>
+            {cartOpen && (
+                <div
+                    id="backdrop"
+                    className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                    onClick={toggleCart}
+                ></div>
+            )}
             <aside className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
                 {/* 장바구니의 가시성은 아래 div의 (id="shopping-cart") class명으로 제어합니다. 
           translate-x-full: 장바구니 닫힘 translate-x-0: 장바구니 열림 */}
                 <section
-                    className="pointer-events-auto w-screen max-w-md transition ease-in-out duration-500 translate-x-full"
+                    className={`pointer-events-auto w-screen max-w-md transition ease-in-out duration-500 translate-x-${
+                        cartOpen ? '0' : 'full'
+                    }`}
                     id="shopping-cart"
                 >
                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
@@ -62,6 +77,7 @@ function App() {
                                     <button
                                         type="button"
                                         className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                                        onClick={toggleCart}
                                     >
                                         <svg
                                             id="close-cart-btn"

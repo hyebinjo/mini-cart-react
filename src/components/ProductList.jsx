@@ -1,8 +1,11 @@
-const ProductList = ({ productData }) => {
+const ProductList = ({ productData, toggleCart }) => {
+    const handleClick = () => {
+        toggleCart();
+    };
     return (
         <>
             {productData.map((item) => (
-                <article id="product-card" key={item.id}>
+                <article id="product-card" key={item.id} onClick={handleClick}>
                     <div className="rounded-lg overflow-hidden border-2 relative">
                         <img
                             src={item.imgSrc}
