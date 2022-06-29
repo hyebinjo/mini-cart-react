@@ -1,6 +1,18 @@
 import './App.css';
+import { useState, useEffect } from 'react';
+import getProductData from './api/getProductData';
+import ProductList from './components/ProductList';
+import CartList from './components/CartList';
 
 function App() {
+    const [productData, setProductData] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            const data = await getProductData();
+            setProductData(data);
+        }
+        fetchData();
+    }, []);
     return (
         <div className="relative min-h-screen">
             <div className="max-w-7xl mx-auto px-6 py-12">
@@ -25,70 +37,7 @@ function App() {
                         id="product-card-grid"
                         className="grid gap-4 auto-cols-fr grid-cols-2 md:grid-cols-4"
                     >
-                        {/* 아래 하드코딩 되어있는 상품 목록들을 src/api/productData.json을 바탕으로 불러오도록 변경해주세요.  */}
-                        <article id="product-card">
-                            <div className="rounded-lg overflow-hidden border-2 relative">
-                                <img
-                                    src="asset/cherry.png"
-                                    className="object-center object-cover"
-                                    alt="체리 두알"
-                                />
-                                <div className="hover:bg-sky-500 w-full h-full absolute top-0 left-0 opacity-90 transition-colors ease-linear duration-75">
-                                    <div
-                                        data-productid="1"
-                                        className="hover:opacity-100 opacity-0 w-full h-full flex justify-center items-center text-xl text-white font-bold cursor-pointer"
-                                    >
-                                        장바구니에 담기
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 className="mt-4 text-gray-700">체리 두알</h3>
-                            <p className="mt-1 text-lg font-semibold text-gray-900">
-                                10,000원
-                            </p>
-                        </article>
-                        <article id="product-card">
-                            <div className="rounded-lg overflow-hidden border-2 relative">
-                                <img
-                                    src="asset/hamburger.png"
-                                    className="object-center object-cover"
-                                    alt="게살버거"
-                                />
-                                <div className="hover:bg-sky-500 w-full h-full absolute top-0 left-0 opacity-90 transition-colors ease-linear duration-75">
-                                    <div
-                                        data-productid="2"
-                                        className="hover:opacity-100 opacity-0 w-full h-full flex justify-center items-center text-xl text-white font-bold cursor-pointer"
-                                    >
-                                        장바구니에 담기
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 className="mt-4 text-gray-700">게살버거</h3>
-                            <p className="mt-1 text-lg font-semibold text-gray-900">
-                                3,000원
-                            </p>
-                        </article>
-                        <article id="product-card">
-                            <div className="rounded-lg overflow-hidden border-2 relative">
-                                <img
-                                    src="asset/fries.png"
-                                    className="object-center object-cover"
-                                    alt="감자튀김"
-                                />
-                                <div className="hover:bg-sky-500 w-full h-full absolute top-0 left-0 opacity-90 transition-colors ease-linear duration-75">
-                                    <div
-                                        data-productid="3"
-                                        className="hover:opacity-100 opacity-0 w-full h-full flex justify-center items-center text-xl text-white font-bold cursor-pointer"
-                                    >
-                                        장바구니에 담기
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 className="mt-4 text-gray-700">감자튀김</h3>
-                            <p className="mt-1 text-lg font-semibold text-gray-900">
-                                1,500원
-                            </p>
-                        </article>
+                        <ProductList productData={productData} />
                     </div>
                 </section>
             </div>
@@ -131,88 +80,7 @@ function App() {
                             </div>
                             {/* 아래 하드코딩 되어있는 장바구니 목록들을 유저 상호작용에 맞게 렌더링 되도록 변경해주세요.  */}
                             <div id="cart-list">
-                                <ul className="divide-y divide-gray-200">
-                                    <li className="flex py-6" id="4">
-                                        <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
-                                            <img
-                                                src="asset/salad.png"
-                                                className="h-full w-full object-cover object-center"
-                                                alt="안든든한 샐러드"
-                                            />
-                                        </div>
-                                        <div className="ml-4 flex flex-1 flex-col">
-                                            <div>
-                                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                                    <h3>안든든한 샐러드</h3>
-                                                    <p className="ml-4">
-                                                        3,000원
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-1 items-end justify-between">
-                                                <div className="flex text-gray-500">
-                                                    <button className="decrease-btn">
-                                                        -
-                                                    </button>
-                                                    <div className="mx-2 font-bold">
-                                                        1개
-                                                    </div>
-                                                    <button className="increase-btn">
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <button
-                                                    type="button"
-                                                    className="font-medium text-sky-400 hover:text-sky-500"
-                                                >
-                                                    <p className="remove-btn">
-                                                        삭제하기
-                                                    </p>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="flex py-6" id="3">
-                                        <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
-                                            <img
-                                                src="asset/fries.png"
-                                                className="h-full w-full object-cover object-center"
-                                                alt="감자튀김"
-                                            />
-                                        </div>
-                                        <div className="ml-4 flex flex-1 flex-col">
-                                            <div>
-                                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                                    <h3>감자튀김</h3>
-                                                    <p className="ml-4">
-                                                        1,500원
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-1 items-end justify-between">
-                                                <div className="flex text-gray-500">
-                                                    <button className="decrease-btn">
-                                                        -
-                                                    </button>
-                                                    <div className="mx-2 font-bold">
-                                                        1개
-                                                    </div>
-                                                    <button className="increase-btn">
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <button
-                                                    type="button"
-                                                    className="font-medium text-sky-400 hover:text-sky-500"
-                                                >
-                                                    <p className="remove-btn">
-                                                        삭제하기
-                                                    </p>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <CartList />
                             </div>
                         </div>
                         <div className="border-t border-gray-200 p-6">
