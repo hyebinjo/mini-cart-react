@@ -33,7 +33,10 @@ const CartList = ({
                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                     <h3>{item.name}</h3>
                                     <p className="ml-4">
-                                        {item.price.toLocaleString()}원
+                                        {(
+                                            item.price * item.count
+                                        ).toLocaleString()}
+                                        원
                                     </p>
                                 </div>
                             </div>
