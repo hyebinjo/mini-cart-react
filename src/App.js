@@ -19,7 +19,7 @@ function App() {
 
     useEffect(() => {
         const initialCartState = localStorage.getItem('cartState');
-        setCartState(JSON.parse(initialCartState));
+        initialCartState && setCartState(JSON.parse(initialCartState));
     }, []);
 
     const toggleCart = () => {
@@ -62,6 +62,10 @@ function App() {
         const indexInCart = cartState.findIndex((data) => data.id === item.id);
         if (indexInCart === -1) addCartItem(item);
         else increaseCartItem(indexInCart);
+    };
+
+    const handlePaymentClick = () => {
+        localStorage.setItem('cartState', JSON.stringify(cartState));
     };
 
     return (
@@ -167,6 +171,7 @@ function App() {
                                 id="payment-btn"
                                 href="./"
                                 className="flex items-center justify-center rounded-md border border-transparent bg-sky-400 px-6 py-3 mt-6 font-medium text-white shadow-sm hover:bg-sky-500"
+                                onClick={handlePaymentClick}
                             >
                                 결제하기
                             </a>
