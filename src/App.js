@@ -26,6 +26,44 @@ function App() {
         setCartOpen((prev) => !prev);
     };
 
+    const decreaseCartItem = (idx) => {
+        if (cartState[idx].count === 1) {
+            alert('장바구니에 담을 수 있는 최소 수량은 1개입니다.');
+            return;
+        }
+        const newCartState = [...cartState];
+        newCartState[idx].count -= 1;
+        setCartState(newCartState);
+    };
+
+    const increaseCartItem = (idx) => {
+        if (cartState[idx].count === 10) {
+            alert('장바구니에 담을 수 있는 최대 수량은 10개입니다.');
+            return;
+        }
+        const newCartState = [...cartState];
+        newCartState[idx].count += 1;
+        setCartState(newCartState);
+    };
+
+    const removeCartItem = (idx) => {
+        const newCartState = [...cartState];
+        newCartState.splice(idx, 1);
+        setCartState(newCartState);
+    };
+
+    const addCartItem = (item) => {
+        const newItem = { ...item, count: 1 };
+        const newState = [...cartState, newItem];
+        setCartState(newState);
+    };
+
+    const handleItemClick = (item) => {
+        const indexInCart = cartState.findIndex((data) => data.id === item.id);
+        if (indexInCart === -1) addCartItem(item);
+        else increaseCartItem(indexInCart);
+    };
+
     return (
         <div className="relative min-h-screen">
             <div className="max-w-7xl mx-auto px-6 py-12">
@@ -54,6 +92,7 @@ function App() {
                         <ProductList
                             productData={productData}
                             toggleCart={toggleCart}
+                            handleItemClick={handleItemClick}
                         />
                     </div>
                 </section>
@@ -104,7 +143,9 @@ function App() {
                             <div id="cart-list">
                                 <CartList
                                     cartState={cartState}
-                                    setCartState={setCartState}
+                                    increaseCartItem={increaseCartItem}
+                                    decreaseCartItem={decreaseCartItem}
+                                    removeCartItem={removeCartItem}
                                 />
                             </div>
                         </div>

@@ -1,28 +1,19 @@
-const CartList = ({ cartState, setCartState }) => {
+const CartList = ({
+    cartState,
+    increaseCartItem,
+    decreaseCartItem,
+    removeCartItem,
+}) => {
     const handleDecreaseClick = (idx) => {
-        if (cartState[idx].count === 1) {
-            alert('장바구니에 담을 수 있는 최소 수량은 1개입니다.');
-            return;
-        }
-        const newCartState = [...cartState];
-        newCartState[idx].count -= 1;
-        setCartState(newCartState);
+        decreaseCartItem(idx);
     };
 
     const handleIncreaseClick = (idx) => {
-        if (cartState[idx].count === 10) {
-            alert('장바구니에 담을 수 있는 최대 수량은 10개입니다.');
-            return;
-        }
-        const newCartState = [...cartState];
-        newCartState[idx].count += 1;
-        setCartState(newCartState);
+        increaseCartItem(idx);
     };
 
     const handleRemoveClick = (idx) => {
-        const newCartState = [...cartState];
-        newCartState.splice(idx, 1);
-        setCartState(newCartState);
+        removeCartItem(idx);
     };
 
     return (
